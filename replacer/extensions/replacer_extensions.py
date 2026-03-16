@@ -14,7 +14,6 @@ from replacer.extensions import arplusplus
 
 def initAllScripts():
     scripts.scripts_img2img.initialize_scripts(is_img2img=True)
-    controlnet.initCNScript()
     inpaint_difference.initInpaintDifference()
     soft_inpainting.initSoftInpaintScript()
     background_extensions.initAllBackgroundExtensions()
@@ -24,8 +23,8 @@ def initAllScripts():
 def restoreTemporaryChangedThings():
     controlnet.restoreCNContext()
 
-def reinitAllScriptsAfterUICreated(*args): # for args_to and args_from
-    controlnet.reinitCNScript()
+def reinitAllScriptsAfterUICreated(*args):
+    # for args_to and args_from
     soft_inpainting.reinitSoftInpaintScript()
     background_extensions.initAllBackgroundExtensions()
     animatediff.initAnimateDiffScript()
