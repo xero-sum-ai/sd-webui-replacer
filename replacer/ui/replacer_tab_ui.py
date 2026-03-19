@@ -23,7 +23,7 @@ from replacer.tools import Pause
 def getTabUI(comp: AttrDict, isDedicatedPage: bool):
     with gr.Blocks(analytics_enabled=False) as replacerTabUI:
         comp.selected_input_mode = gr.Textbox(value="tab_single", visible=False)
-        comp.dummy_component = gr.Label(visible=False)
+        comp.dummy_component = gr.Textbox(value="", visible=False)
         comp.trueComponent = gr.Checkbox(value=True, visible=False)
         comp.falseComponent = gr.Checkbox(value=False, visible=False)
         if replacer_extensions.controlnet.SCRIPT:
