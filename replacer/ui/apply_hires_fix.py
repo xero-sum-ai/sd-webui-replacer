@@ -10,7 +10,21 @@ from replacer.ui import generate_ui
 from replacer.inpaint import inpaint
 from replacer.hires_fix import getGenerationArgsForHiresFixPass, prepareGenerationArgsBeforeHiresFixPass
 
+def _get_saved_name(image):
+    if isinstance(image, dict):
+        name = image.get("name")
+        if name:
+            return name.rsplit('?', 1)[0]
 
+    if isinstance(image, (list, tuple)) and len(image) > 0:
+        first = image[0]
+        if isinstance(first, str) and first:
+            return first.rsplit('?', 1)[0]
+
+    if isinstance(image, str) and image:
+        return image.rsplit('?', 1)[0]
+
+    return None
 
 
 def applyHiresFix(
@@ -42,7 +56,9 @@ def applyHiresFix(
     original_gallery = []
     for image in gallery:
         fake_image = Image.new(mode="RGB", size=(1, 1))
-        fake_image.already_saved_as = image["name"].rsplit('?', 1)[0]
+        saved_name = _get_saved_name(image)
+        if saved_name:
+            fake_image.already_saved_as = saved_name
         original_gallery.append(fake_image)
 
     if generate_ui.lastGenerationArgs is None:
@@ -135,7 +151,9 @@ def applyHiresFix(
             new_gallery.append(processed.images[0])
         else:
             fake_image = Image.new(mode="RGB", size=(1, 1))
-            fake_image.already_saved_as = image["name"].rsplit('?', 1)[0]
+            saved_name = _get_saved_name(image)
+            if saved_name:
+                fake_image.already_saved_as = saved_name
             new_gallery.append(fake_image)
 
     geninfo["infotexts"][gallery_idx] = processed.info
