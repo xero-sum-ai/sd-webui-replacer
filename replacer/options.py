@@ -36,16 +36,12 @@ def getDedicatedPagePath():
 
 
 def needAutoUnloadModels():
-    opt = shared.opts.data.get(EXT_NAME_LOWER + "_always_unload_models", 'Automatic')
-
-    if opt == 'Enabled':
-        return True
-    if opt == 'Disabled':
-        return False
-    if opt == 'Only SDXL':
-        return shared.sd_model.is_sdxl
-
-    return shared.cmd_opts.lowvram or shared.cmd_opts.medvram or (shared.sd_model.is_sdxl and shared.cmd_opts.medvram_sdxl)
+    is_sdxl = getattr(shared.sd_model, "is_sdxl", False)
+    return (
+        getattr(shared.cmd_opts, "lowvram", False)
+        or getattr(shared.cmd_opts, "medvram", False)
+        or (is_sdxl and getattr(shared.cmd_opts, "medvram_sdxl", False))
+    )
 
 
 def doNotShowUnloadButton():
