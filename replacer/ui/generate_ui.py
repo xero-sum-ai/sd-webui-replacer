@@ -116,7 +116,7 @@ def generate_ui_(
     if (seed == -1):
         seed = generateSeed()
 
-    input_batch_dir = convertIntoPath(input_batch_dir)
+    input_batch_dir = (convertIntoPath(input_batch_dir) or "").strip()
     output_batch_dir = convertIntoPath(output_batch_dir)
 
     images = []
