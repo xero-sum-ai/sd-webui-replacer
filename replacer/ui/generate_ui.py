@@ -155,6 +155,8 @@ def generate_ui_(
                 except Exception:
                     continue
                 yield image
+        if not input_batch_dir or not os.path.isdir(input_batch_dir):
+            return [], "", plaintext_to_html("Invalid or empty input directory"), ""
         images = readImages(input_batch_dir)
 
 
